@@ -4,3 +4,5 @@
 *.[oa]
 #ignore all files that end with ~
 *~
+#ignore binary
+linkedlist
