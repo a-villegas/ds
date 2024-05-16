@@ -1,0 +1,6 @@
+# ignore all files in .vscode directory
+.vscode/
+# ignore all .o .a files
+*.[oa]
+#ignore all files that end with ~
+*~
