@@ -1,9 +1,18 @@
-GCC = gcc
-CFLAGS = -std=c99 -Wall -Werror -g
-OBJECTS = list
+GCC      = gcc
+CFLAGS   = -std=c99 -Wall -Werror -g3 -O3
+OBJECTS  = list
+
+MEMVAL   = valgrind
+MEMFLAGS = --leak-check=yes --track-origins=yes -s
+
+RM       = rm
+RMFLAGS  = -rf
+
+memcheck:
+	$(MEMVAL) $(MEMFLAGS) ./$(OBJECTS).o
 
 list:
-	$(GCC) $(CFLAGS) list.c -o list.o
+	$(GCC) $(CFLAGS) list.c -o $(OBJECTS).o
 
 clean:
-	rm -rf *$(OBJECTS).o
+	$(RM) $(RMFLAGS) *$(OBJECTS).o
