@@ -131,12 +131,20 @@ void PopTest()
 
 void SortedInsertTest()
 {
+    int size = 1000001;
     struct node * List = BuildOneTwoThree();
     printf("List size: %d\n", Length(List));
     printList(List);
-    SortedInsert(&List, createNode(4));
+    SortedInsert(&List, createNode(2));
+    SortedInsert(&List, createNode(0));
     printf("List size: %d\n", Length(List));
     printList(List);
+    for(int index = 4; index < size; index++){
+        SortedInsert(&List, createNode(index));
+    }
+    printf("List size: %d\n", Length(List));    
+    printList(List);
+    DeleteList(&List);
 }
 
 //############## END UNIT TEST FUNCTIONS ###########################
@@ -443,5 +451,26 @@ void Push(struct node ** headRef, int newData)
 ******************************************************************************/
 void SortedInsert( struct node ** headRef, struct node * newNode)
 {
-
+    if(*headRef) {
+        struct node * current = *headRef;
+        while(current) {
+            if(current->data == (newNode->data -1)) {
+                //if multiple iterations of the data
+                // add it after the last iteration count
+                /*int iterations = Count(*headRef, current->data);
+                for(int index = 0; index < iterations; index++) {
+                    current = current->next;
+                }*/
+                //add node to list
+                newNode->next = current->next;
+                current->next = newNode;
+                break;
+            } else if (newNode->data < current->data) {
+                newNode->next = current;
+                *headRef = newNode;
+                break;
+            }
+            current = current->next;
+        }
+    }
 }
