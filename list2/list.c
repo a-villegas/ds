@@ -21,6 +21,7 @@ void DeleteList(struct node ** ListPtr);
 void InsertNth(struct node ** ListPtr, int position, int newData);
 void printList(struct node * List);
 void Push(struct node ** headRef, int newData);
+void SortedInsert( struct node ** headRef, struct node * newNode);
 
 // UNIT TEST FUNCTIONS
 void BasicsCaller();
@@ -28,6 +29,7 @@ void DeleteListTest();
 void GetNthTest();
 void InsertNthTest();
 void PopTest();
+void SortedInsertTest();
 
 int main(int argc, char * argv[])
 {
@@ -61,6 +63,7 @@ void BasicsCaller()
     DeleteListTest();
     PopTest();
     InsertNthTest();
+    SortedInsertTest();
 }
 
 void DeleteListTest()
@@ -124,6 +127,16 @@ void PopTest()
     int len = Length(head);
     printf("List size after all pops: %d\n",len);
     DeleteList(&head);
+}
+
+void SortedInsertTest()
+{
+    struct node * List = BuildOneTwoThree();
+    printf("List size: %d\n", Length(List));
+    printList(List);
+    SortedInsert(&List, createNode(4));
+    printf("List size: %d\n", Length(List));
+    printList(List);
 }
 
 //############## END UNIT TEST FUNCTIONS ###########################
@@ -421,4 +434,14 @@ void Push(struct node ** headRef, int newData)
             *(headRef) = newNode;
         }
     }
+}
+
+/******************************************************************************
+*   This Function inserts a node into a sorted List at the correct position
+*   @param headRef: A pointer to the list we need to add an node element into
+*   @param newNode: The new element that needs to be added to the List
+******************************************************************************/
+void SortedInsert( struct node ** headRef, struct node * newNode)
+{
+
 }
