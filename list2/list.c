@@ -18,6 +18,7 @@ int Pop(struct node ** headRef);
 struct node * BuildOneTwoThree();
 struct node * createNode(int _data);
 void DeleteList(struct node ** ListPtr);
+void InsertNth(struct node ** ListPtr, int position, int newData);
 void printList(struct node * List);
 void Push(struct node ** headRef, int newData);
 
@@ -25,6 +26,7 @@ void Push(struct node ** headRef, int newData);
 void BasicsCaller();
 void DeleteListTest();
 void GetNthTest();
+void InsertNthTest();
 void PopTest();
 
 int main(int argc, char * argv[])
@@ -58,6 +60,19 @@ void BasicsCaller()
     GetNthTest();
     DeleteListTest();
     PopTest();
+    InsertNthTest();
+}
+
+void DeleteListTest()
+{
+    struct node * list = BuildOneTwoThree();
+    if(list) {
+        printf("List size: %d\n", Length(list));
+        printList(list);
+        DeleteList(&list);
+        printf("List size: %d\n", Length(list));
+        printList(list);
+    }
 }
 
 void GetNthTest()
@@ -83,6 +98,22 @@ void GetNthTest()
     DeleteList(&mylist);
 }
 
+void InsertNthTest()
+{
+    struct node * head = NULL;
+    InsertNth(&head, 0, 13);
+    InsertNth(&head, 1, 42);
+    InsertNth(&head, 1, 5);
+    InsertNth(&head, 2, 69);
+    InsertNth(&head, 0, 69);
+    InsertNth(&head, 5, 69);
+    printf("List size: %d\n", Length(head));
+    printList(head);
+    DeleteList(&head);
+    printf("List size: %d\n", Length(head));
+    printList(head);
+}
+
 void PopTest()
 {
     struct node * head = BuildOneTwoThree();
@@ -93,18 +124,6 @@ void PopTest()
     int len = Length(head);
     printf("List size after all pops: %d\n",len);
     DeleteList(&head);
-}
-
-void DeleteListTest()
-{
-    struct node * list = BuildOneTwoThree();
-    if(list) {
-        printf("List size: %d\n", Length(list));
-        printList(list);
-        DeleteList(&list);
-        printf("List size: %d\n", Length(list));
-        printList(list);
-    }
 }
 
 //############## END UNIT TEST FUNCTIONS ###########################
@@ -276,6 +295,47 @@ int GetNth(struct node * list, int position)
 
     Error:
     return element;
+}
+
+/***************************************************************************
+*   This Function inserts a node element into a List at the Nth position
+*   @param ListPtr: A pointer to the List head node
+*   @param position: The Nth position where to insert an element node
+*   @param newData: The data element to be added into the node being added
+****************************************************************************/
+void InsertNth(struct node ** ListPtr, int position, int newData)
+{ 
+    if(*(ListPtr) == NULL) {
+        if(position < 0 || position > 0) {
+            printf("Out of Bounds Error!!\n");
+            exit(EXIT_FAILURE);
+        }
+
+        Push(ListPtr, newData);
+
+    } else {
+        int listSize = Length(*ListPtr);
+        if( position < 0 || position > listSize) {
+            printf("Out of Bounds Error!!\n");
+            exit(EXIT_FAILURE);
+        }
+
+        if( position == 0 && listSize >= 1){ // add at Head pos
+            Push(ListPtr, newData);
+        } else if(position == listSize){ //add at Tail pos
+            addAtTail(*ListPtr, newData);
+        } else { // add in between nodes
+            struct node * current = *ListPtr;
+            while(current) {
+                if(position == 1) {
+                    Push(&(current->next), newData);
+                    break;
+                }
+                current = current->next;
+                position--;
+            }
+        }
+    }
 }
 
 /***********************************************************************
